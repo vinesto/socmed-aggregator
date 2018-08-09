@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>GIT HAPHAP</h1>
+    <h2>use here to search repo</h2>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '288262381979390',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v3.1'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                console.log(response);
+                if (response.status == 'connected') {
+                    axios.post('http://localhost:3000/loginFB',
+                    response.authResponse)
+                    .then((result) => {
+                        console.log(result);
+                        localStorage.setItem('token', result.data.token) //menyimpan ke localstorage
+                    }).catch((err) => {
+                        console.log(err);
+                    });        
+                }
+            });
+        }
+    </script>
+
+
+
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
+
+</body>
+
+</html>
