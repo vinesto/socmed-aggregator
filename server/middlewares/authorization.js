@@ -4,7 +4,6 @@ const authorization = (req,res,next)=>{
     let token = req.headers.token
     if(token){
         let decode = jwt.verify(token,'secretkey')
-        // console.log(decode);
         if(decode.role === "admin"){
             next()
         }else{

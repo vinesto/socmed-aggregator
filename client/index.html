@@ -12,6 +12,7 @@
 <body>
     <h1>GIT HAPHAP</h1>
     <h2>use here to search repo</h2>
+    
     <script>
         window.fbAsyncInit = function () {
             FB.init({
@@ -38,13 +39,23 @@
                     response.authResponse)
                     .then((result) => {
                         console.log(result);
-                        localStorage.setItem('token', result.data.token) //menyimpan ke localstorage
+                        localStorage.setItem('token', result.data.token)//menyimpan ke localstorage
+                        window.location = 'http://localhost:8080/user.html' // ini bwat direct after login
                     }).catch((err) => {
                         console.log(err);
                     });        
                 }
             });
         }
+
+        function showRepo(){
+            axios.get('http://localhost:3000/users/repos')
+            .then(function(result){
+                console.log(result);
+            })
+        }
+
+        
     </script>
 
 

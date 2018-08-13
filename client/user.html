@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="logOut()"> logout </button>
+    <button onclick="showRepo()"> click me
+    </button>
+
+    <script>
+        function showRepo() {
+            axios.get('http://localhost:3000/users/repos')
+                .then(function (result) {
+                    console.log(result);
+                })
+        }
+        function logOut() {
+            localStorage.removeItem('token')
+            window.location = 'http://localhost:8080/'
+        }
+    </script>
+</body>
+
+</html>
