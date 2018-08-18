@@ -26,8 +26,6 @@ const signIn = (req, res) => {
         email: req.body.email
     })
         .then(function (user) {
-            console.log(user);
-            console.log(req.body);
             if (user) {
                 let token = jwt.sign({ username: user.username, role: user.role, email: user.email }, 'secretkey')
                 let decodedPass = bcrypt.compare(req.body.password, user.password)
@@ -45,17 +43,17 @@ const signIn = (req, res) => {
 function loginFB(req, res) {
 
     let autResponse = req.body
-    console.log('====authresponse=====', autResponse);
+    // console.log('====authresponse=====', autResponse);
     let url_user_info = `https://graph.facebook.com/me?fields=id,name,email&access_token=${autResponse.accessToken}`
 
     axios.get(url_user_info)
         .then(function (result) {
-            console.log('----resultdataemail-----', result.data.email);
+            // console.log('----resultdataemail-----', result.data.email);
             Model.findOne({
                 email: result.data.email
             })
                 .then(function (userdb) {
-                    console.log('====userdb====', userdb);
+                    // console.log('====userdb====', userdb);
                     if (!userdb) {
                         Model.create({
                             username: result.data.name,
@@ -65,17 +63,16 @@ function loginFB(req, res) {
                             .then(function (newUser) {
                                 let token = jwt.sign({ username: userdb.username, role: userdb.role, email: userdb.email }, 'secretkey')
                                 res.json({ newUser, token })
-                                console.log('=======newUser======', newUser);
+                                // console.log('=======newUser======', newUser);
                             })
                     } else {
                         let token = jwt.sign({ username: userdb.username, role: userdb.role, email: userdb.email }, 'secretkey')
-                        // console.log('email has already taken');
-                        console.log('=====userdb else=====', userdb);
+                        // console.log('=====userdb else=====', userdb);
                         res.json({ userdb, token })
                     }
                 })
                 .catch(function (err) {
-                    console.log('err bro', err);
+                    // console.log('err bro', err);
                 })
         })
 
